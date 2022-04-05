@@ -1,5 +1,8 @@
 package dam.proyecto.editor;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -11,7 +14,7 @@ import javax.swing.JTextPane;
  * @author Antonio Lopez
  *
  */
-public class Panel extends JPanel{
+public class Panel extends JPanel {
 	public Panel() {
 		//---------------Menu----------------------------
 		//Instanciamos los objetos del menu
@@ -31,8 +34,10 @@ public class Panel extends JPanel{
 		//eliminamos el menu.add(apariencia ya que pertenece al menu ver)
 		
 		//------------Elementos De Archivo----------------
+		
 		creaItem("Nuevo Archivo", "archivo", "nuevo");
 		creaItem("Abrir Archivo", "archivo", "abrir");
+		creaItem("Abrir Reciente", "archivo", "abrirReciente");
 		archivo.addSeparator();
 		creaItem("Guardar", "archivo", "guardar");
 		creaItem("Guardar Como", "archivo", "guardarcomo");
@@ -68,7 +73,7 @@ public class Panel extends JPanel{
 		tPane =new JTabbedPane();
 	
 		//-----------------------------------------------
-		creaPanel();
+		
 		add(panelMenu);
 		
 		add(tPane);
@@ -79,6 +84,23 @@ public class Panel extends JPanel{
 		
 		if(menu.equals("archivo")) {
 			archivo.add(elementoItem);
+			if(accion.equals("nuevo")) {
+				elementoItem.addActionListener(new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						creaPanel();
+					}
+				});
+			}
+			else if(accion.equals("abrir")) {
+				elementoItem.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						
+					}
+					
+				});
+			}
 		}
 		else if(menu.equals("editar")) {
 			editar.add(elementoItem);
