@@ -12,7 +12,11 @@ public class Marco extends JFrame{
 		//de donde queremos que aparezca la ventana.
 		//Los ultimos dos serán el tamaño de la ventana.
 		setBounds(300,300,300,300);
+		//Metodo para añadir un titulo a la ventana
 		setTitle("Editor de Texto");
+		//Creacion de un objeto de tipo Panel
+		Panel panel= new Panel();
+		add(panel);
 	}
 
 }
