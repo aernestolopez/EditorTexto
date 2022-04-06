@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
@@ -17,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
+import javax.swing.JToolBar;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.undo.UndoManager;
 /**
@@ -85,9 +87,50 @@ public class Panel extends JPanel {
 		listManager=new ArrayList<UndoManager>();
 		//-----------------------------------------------
 
+		//-----------------------Barra Herramientas------
+		herramientas=new JToolBar(JToolBar.VERTICAL);
+		url=Principal.class.getResource("/dam/proyecto/img/x.png");
+		Utilidades.addButton(url, herramientas, "Cerrar Pestaña Actual").addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int seleccion=tPane.getSelectedIndex();
+				if(seleccion!=-1) {
+					//Si existen pestañas abiertas eliminamos la que tengamos seleccionada
+					listScroll.get(tPane.getSelectedIndex()).setRowHeader(null);
+					tPane.remove(seleccion);
+					listScroll.remove(seleccion);
+					listManager.remove(seleccion);
+					listFile.remove(seleccion);
+					
+					contadorPanel--;
+					//si devuelve -1 quiere decir que no existen paneles creados
+					if(tPane.getSelectedIndex()==-1) {
+						existePanel=false;
+					}
+				}
+			}
+			
+		});
+		
+		url=Principal.class.getResource("/dam/proyecto/img/mas.png");
+		Utilidades.addButton(url, herramientas,"Nuevo Archivo").addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				creaPanel();
+				
+			}
+			
+		});
+		
+		
+		
+		//-----------------------------------------------
 		add(panelMenu);
 
 		add(tPane);
+		add(herramientas);
 	}
 	//Metodo usado para crear acciones en el menu
 	public void creaItem(String rotulo, String menu, String accion) {
@@ -370,4 +413,6 @@ public class Panel extends JPanel {
 	private JMenuBar menu;
 	private JMenu archivo, editar, seleccion, ver, apariencia;
 	private JMenuItem elementoItem;
+	private JToolBar herramientas;
+	private URL url;
 }

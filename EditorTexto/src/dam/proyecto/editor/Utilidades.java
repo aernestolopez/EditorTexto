@@ -1,6 +1,12 @@
 package dam.proyecto.editor;
 
+import java.awt.Container;
+import java.awt.Image;
+import java.net.URL;
 import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
@@ -42,4 +48,14 @@ public class Utilidades {
 			}
 		}
 	}
+	
+	//-----------------------------------------------------------------
+	//-------------------Button----------------------------------------
+	public static JButton addButton(URL url, Object objContenedor, String rotulo) {
+		JButton button=new JButton(new ImageIcon(new ImageIcon(url).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
+		button.setToolTipText(rotulo);
+		((Container) objContenedor).add(button);
+		return button;
+	}
+	//-----------------------------------------------------------------
 }
