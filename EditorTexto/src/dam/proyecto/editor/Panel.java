@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -137,11 +136,50 @@ public class Panel extends JPanel {
 									//El titulo se le agrega a la pestaña del panel que se crea
 									//nuestra area de texto, lugar donde ira el texto del archivo que el usuario ha seleccionado
 									tPane.setTitleAt(tPane.getSelectedIndex(), titulo);
+									
+									while(linea !=null) {
+										//Lee linea a linea cada linea del archivo y es almacenado en el String
+										linea=miBuffer.readLine();
+										if(linea!=null) Utilidades.append(linea+"\n", listAreaTexto.get(tPane.getSelectedIndex()));
+									}
 								
+								}else {
+									//si la ruta del archivo ya existe y esta abierto vamos a recorrer todos los paneles
+									//para saber cual tiene el path del fichero y seleccionar este
+									
+									for(int i=0; i<tPane.getTabCount();i++){
+										File f= selectorArchivos.getSelectedFile();
+										if(listFile.get(i).getPath().equals(f.getPath())) {
+											//seleccionamos el panel que ya tiene abierto el archivo
+											tPane.setSelectedIndex(i);//pasamos por parametro la posicion del panel que tiene el path
+											
+											
+											
+											listAreaTexto.remove(tPane.getTabCount()-1);
+											listScroll.remove(tPane.getTabCount()-1);
+											listFile.remove(tPane.getTabCount()-1);
+											tPane.remove(tPane.getTabCount()-1);
+											contadorPanel--;
+											break;
+										}
+									}
+									
 								}
 							} catch (IOException e1) {
 								e1.printStackTrace();
 							}
+						}else {
+							//Si se oprime el boton cancelar en la ventana de abrir archivo eliminamos el panel del area de texto que se crea por defecto
+							
+							int seleccion=tPane.getSelectedIndex();
+							if(seleccion !=-1) {
+								listAreaTexto.remove(tPane.getTabCount()-1);
+								listScroll.remove(tPane.getTabCount()-1);
+								listFile.remove(tPane.getTabCount()-1);
+								tPane.remove(tPane.getTabCount()-1);
+								contadorPanel--;
+							}
+						
 						}
 
 
@@ -189,7 +227,6 @@ public class Panel extends JPanel {
 	private JTabbedPane tPane;
 	//Clases utilizadas para poder crear areas de texto
 	private JPanel ventana;
-	//private JTextPane areaTexto;
 	private ArrayList<JTextPane> listAreaTexto;
 	private ArrayList<JScrollPane> listScroll;
 	private ArrayList<File> listFile;
