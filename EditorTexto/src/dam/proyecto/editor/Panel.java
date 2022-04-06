@@ -70,7 +70,7 @@ public class Panel extends JPanel {
 
 		//----------------Elementos de ver---------------
 		creaItem("Numeración", "ver", "numeracion");
-
+		creaItem("Contar Palabras", "ver", "contarpalabras");
 		//-----------------------------------------------
 		panelMenu.add(menu);
 
@@ -305,7 +305,7 @@ public class Panel extends JPanel {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						listAreaTexto.get(tPane.getSelectedIndex()).selectAll();;
+						listAreaTexto.get(tPane.getSelectedIndex()).selectAll();
 						
 					}
 					
@@ -314,6 +314,19 @@ public class Panel extends JPanel {
 			
 		}else if(menu.equals("ver")) {
 			ver.add(elementoItem);
+			if(accion.equals("numeracion")) {
+				elementoItem.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						numeracion=!numeracion;
+						
+						Utilidades.viewNumeracion(contadorPanel, numeracion, listAreaTexto, listScroll);
+							
+					}
+					
+				});
+			}
 		}
 	}
 
@@ -333,10 +346,12 @@ public class Panel extends JPanel {
 		//Agregamos la ventana que tiene en su interior el area de texto en la pestaña
 		tPane.addTab("title", ventana);
 
+		Utilidades.viewNumeracionInicio(numeracion, listAreaTexto.get(contadorPanel),listScroll.get(contadorPanel));
 		tPane.setSelectedIndex(contadorPanel);
 		contadorPanel++;
 		existePanel=true;
 	}
+	private boolean numeracion=false;
 	//Contara cuantos paneles se han creado
 	private int contadorPanel=0;
 	//Dira si ya se ha creado un panel
