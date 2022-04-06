@@ -283,7 +283,7 @@ public class Panel extends JPanel {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						
+						if(listManager.get(tPane.getSelectedIndex()).canRedo()) listManager.get(tPane.getSelectedIndex()).redo();
 						
 					}
 					
