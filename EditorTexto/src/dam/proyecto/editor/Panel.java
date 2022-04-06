@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
+import javax.swing.text.DefaultEditorKit;
 import javax.swing.undo.UndoManager;
 /**
  * Clase utilizada para crear paneles al marco
@@ -290,36 +291,12 @@ public class Panel extends JPanel {
 				});
 				
 			}else if(accion.equals("cortar")) {
-				elementoItem.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						
-						
-					}
-					
-				});
+				elementoItem.addActionListener(new DefaultEditorKit.CutAction());
 				
 			}else if(accion.equals("copiar")) {
-				elementoItem.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						
-						
-					}
-					
-				});
+				elementoItem.addActionListener(new DefaultEditorKit.CopyAction());
 			}else if(accion.equals("pegar")) {
-				elementoItem.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						
-						
-					}
-					
-				});
+				elementoItem.addActionListener(new DefaultEditorKit.PasteAction());
 				
 			}
 		}else if(menu.equals("seleccion")) {
@@ -361,7 +338,7 @@ public class Panel extends JPanel {
 	private ArrayList<JTextPane> listAreaTexto;
 	private ArrayList<JScrollPane> listScroll;
 	private ArrayList<File> listFile;
-	//Clase para hacer la funcion de deshacer
+	//Clase para hacer la funcion de deshacer y rehacer
 	private ArrayList<UndoManager> listManager;
 	//Objetos utilizados para crear el menu
 	private JMenuBar menu;
