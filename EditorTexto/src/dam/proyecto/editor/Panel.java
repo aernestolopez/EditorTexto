@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
+import javax.swing.undo.UndoManager;
 /**
  * Clase utilizada para crear paneles al marco
  * @author Antonio Lopez
@@ -52,12 +53,12 @@ public class Panel extends JPanel {
 		//-----------------------------------------------
 
 		//---------------Elementos de editar-------------
-		creaItem("Deshacer", "editar", "");
-		creaItem("Rehacer", "editar", "");
+		creaItem("Deshacer", "editar", "deshacer");
+		creaItem("Rehacer", "editar", "rehacer");
 		editar.addSeparator();
-		creaItem("Cortar", "editar", "");
-		creaItem("Copiar", "editar", "");
-		creaItem("Pegar", "editar", "");
+		creaItem("Cortar", "editar", "cortar");
+		creaItem("Copiar", "editar", "copiar");
+		creaItem("Pegar", "editar", "pegar");
 
 		//-----------------------------------------------
 
@@ -80,7 +81,7 @@ public class Panel extends JPanel {
 		listFile = new ArrayList<File>();
 		listAreaTexto=new ArrayList<JTextPane>();
 		listScroll=new ArrayList<JScrollPane>();
-
+		listManager=new ArrayList<UndoManager>();
 		//-----------------------------------------------
 
 		add(panelMenu);
@@ -268,6 +269,59 @@ public class Panel extends JPanel {
 		}
 		else if(menu.equals("editar")) {
 			editar.add(elementoItem);
+			if(accion.equals("deshacer")) {
+				elementoItem.addActionListener(new ActionListener(){
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						if(listManager.get(tPane.getSelectedIndex()).canUndo()) listManager.get(tPane.getSelectedIndex()).undo();
+					}
+					
+				});
+			}else if(accion.equals("rehacer")) {
+				elementoItem.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						
+						
+					}
+					
+				});
+				
+			}else if(accion.equals("cortar")) {
+				elementoItem.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						
+						
+					}
+					
+				});
+				
+			}else if(accion.equals("copiar")) {
+				elementoItem.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						
+						
+					}
+					
+				});
+			}else if(accion.equals("pegar")) {
+				elementoItem.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						
+						
+					}
+					
+				});
+				
+			}
 		}else if(menu.equals("seleccion")) {
 			seleccion.add(elementoItem);
 		}else if(menu.equals("ver")) {
@@ -282,8 +336,10 @@ public class Panel extends JPanel {
 		listFile.add(new File(""));
 		listAreaTexto.add(new JTextPane());
 		listScroll.add(new JScrollPane(listAreaTexto.get(contadorPanel)));
-
-
+		//Sirve para rastrear los cambios del area de texto
+		listManager.add(new UndoManager());
+		listAreaTexto.get(contadorPanel).getDocument().addUndoableEditListener(listManager.get(contadorPanel));
+		
 		//Agregamos el area de texto en el contenedor
 		ventana.add(listScroll.get(contadorPanel));
 		//Agregamos la ventana que tiene en su interior el area de texto en la pestaña
@@ -305,6 +361,8 @@ public class Panel extends JPanel {
 	private ArrayList<JTextPane> listAreaTexto;
 	private ArrayList<JScrollPane> listScroll;
 	private ArrayList<File> listFile;
+	//Clase para hacer la funcion de deshacer
+	private ArrayList<UndoManager> listManager;
 	//Objetos utilizados para crear el menu
 	private JMenuBar menu;
 	private JMenu archivo, editar, seleccion, ver, apariencia;
