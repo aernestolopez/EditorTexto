@@ -64,12 +64,12 @@ public class Panel extends JPanel {
 		//-----------------------------------------------
 
 		//----------------Elementos de seleccion---------
-		creaItem("Seleccionar Todo", "seleccion", "");
+		creaItem("Seleccionar Todo", "seleccion", "seleccion");
 
 		//-----------------------------------------------
 
 		//----------------Elementos de ver---------------
-		creaItem("Numeración", "ver", "");
+		creaItem("Numeración", "ver", "numeracion");
 
 		//-----------------------------------------------
 		panelMenu.add(menu);
@@ -297,10 +297,21 @@ public class Panel extends JPanel {
 				elementoItem.addActionListener(new DefaultEditorKit.CopyAction());
 			}else if(accion.equals("pegar")) {
 				elementoItem.addActionListener(new DefaultEditorKit.PasteAction());
-				
 			}
 		}else if(menu.equals("seleccion")) {
-			seleccion.add(elementoItem);
+			if(accion.equals("seleccion")) {
+				seleccion.add(elementoItem);
+				elementoItem.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						listAreaTexto.get(tPane.getSelectedIndex()).selectAll();;
+						
+					}
+					
+				});
+			}
+			
 		}else if(menu.equals("ver")) {
 			ver.add(elementoItem);
 		}
