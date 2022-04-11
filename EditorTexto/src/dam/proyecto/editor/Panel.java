@@ -16,6 +16,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
@@ -174,7 +175,24 @@ public class Panel extends JPanel {
 		panelExtra.add(panelCentro);
 
 		//-----------------------------------------------
-
+		
+		//-----------------Menu Emergente----------------
+		menuEmergente=new JPopupMenu();
+		JMenuItem cortar=new JMenuItem("Cortar");
+		JMenuItem copiar=new JMenuItem("Copiar");
+		JMenuItem pegar=new JMenuItem("Pegar");
+		
+		cortar.addActionListener(new DefaultEditorKit.CutAction());
+		copiar.addActionListener(new DefaultEditorKit.CopyAction());
+		pegar.addActionListener(new DefaultEditorKit.PasteAction());
+		
+		menuEmergente.add(cortar);
+		menuEmergente.add(copiar);
+		menuEmergente.add(pegar);
+		
+		//-----------------------------------------------
+		
+		
 		add(panelMenu,BorderLayout.NORTH);
 		add(tPane, BorderLayout.CENTER);
 		add(herramientas, BorderLayout.WEST);
@@ -432,6 +450,8 @@ public class Panel extends JPanel {
 		//Sirve para rastrear los cambios del area de texto
 		listManager.add(new UndoManager());
 		listAreaTexto.get(contadorPanel).getDocument().addUndoableEditListener(listManager.get(contadorPanel));
+		
+		listAreaTexto.get(contadorPanel).setComponentPopupMenu(menuEmergente);
 
 		//Agregamos el area de texto en el contenedor
 		ventana.add(listScroll.get(contadorPanel), BorderLayout.CENTER );
@@ -466,4 +486,5 @@ public class Panel extends JPanel {
 	private JToolBar herramientas;
 	private URL url;
 	private JSlider slider;
+	private JPopupMenu menuEmergente;
 }
