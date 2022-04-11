@@ -38,6 +38,8 @@ public class Panel extends JPanel {
 		//---------------Menu----------------------------
 		//Instanciamos los objetos del menu
 		JPanel panelMenu= new JPanel();
+		items = new JMenuItem[8];
+		
 		panelMenu.setLayout(new BorderLayout());
 		menu=new JMenuBar();
 		//Instanciamos los componentes del menu
@@ -95,6 +97,8 @@ public class Panel extends JPanel {
 		listAreaTexto=new ArrayList<JTextPane>();
 		listScroll=new ArrayList<JScrollPane>();
 		listManager=new ArrayList<UndoManager>();
+		
+		Utilidades.desactivaItem(items);
 		//-----------------------------------------------
 
 		//-----------------------Barra Herramientas------
@@ -117,6 +121,7 @@ public class Panel extends JPanel {
 					//si devuelve -1 quiere decir que no existen paneles creados
 					if(tPane.getSelectedIndex()==-1) {
 						existePanel=false;
+						Utilidades.desactivaItem(items);
 					}
 				}
 			}
@@ -129,7 +134,7 @@ public class Panel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				creaPanel();
-
+				if(existePanel) Utilidades.activaItems(items);
 			}
 
 		});
@@ -205,10 +210,12 @@ public class Panel extends JPanel {
 		if(menu.equals("archivo")) {
 			archivo.add(elementoItem);
 			if(accion.equals("nuevo")) {
+				
 				elementoItem.addActionListener(new ActionListener(){
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						creaPanel();
+						if(existePanel) Utilidades.activaItems(items);
 					}
 				});
 			}
@@ -217,6 +224,7 @@ public class Panel extends JPanel {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						creaPanel();
+						
 						//Instanciamos el objeto para poder usar la opcion de abrir archivo
 						JFileChooser selectorArchivos = new JFileChooser();
 						//Nos permitirá seleccionar archivos y directorios
@@ -224,6 +232,7 @@ public class Panel extends JPanel {
 						int resultado=selectorArchivos.showOpenDialog(listAreaTexto.get(tPane.getSelectedIndex()));
 
 						if(resultado==JFileChooser.APPROVE_OPTION) {
+							if(existePanel) Utilidades.activaItems(items);
 							try {
 								boolean existePath=false;
 								for(int i=0; i<tPane.getTabCount(); i++) {
@@ -255,7 +264,7 @@ public class Panel extends JPanel {
 								}else {
 									//si la ruta del archivo ya existe y esta abierto vamos a recorrer todos los paneles
 									//para saber cual tiene el path del fichero y seleccionar este
-
+									
 									for(int i=0; i<tPane.getTabCount();i++){
 										File f= selectorArchivos.getSelectedFile();
 										if(listFile.get(i).getPath().equals(f.getPath())) {
@@ -282,6 +291,8 @@ public class Panel extends JPanel {
 
 							int seleccion=tPane.getSelectedIndex();
 							if(seleccion !=-1) {
+								existePanel=false;
+								Utilidades.desactivaItem(items);
 								listAreaTexto.remove(tPane.getTabCount()-1);
 								listScroll.remove(tPane.getTabCount()-1);
 								listFile.remove(tPane.getTabCount()-1);
@@ -298,6 +309,7 @@ public class Panel extends JPanel {
 				});
 			}
 			else if(accion.equals("guardar")) {
+				items[0]=elementoItem;
 				elementoItem.addActionListener(new ActionListener(){
 
 					@Override
@@ -345,6 +357,7 @@ public class Panel extends JPanel {
 				});
 			}
 			else if(accion.equals("guardarComo")) {
+				items[1]=elementoItem;
 				elementoItem.addActionListener(new ActionListener() {
 
 					@Override
@@ -380,6 +393,7 @@ public class Panel extends JPanel {
 		else if(menu.equals("editar")) {
 			editar.add(elementoItem);
 			if(accion.equals("deshacer")) {
+				items[2]=elementoItem;
 				elementoItem.addActionListener(new ActionListener(){
 
 					@Override
@@ -389,6 +403,7 @@ public class Panel extends JPanel {
 
 				});
 			}else if(accion.equals("rehacer")) {
+				items[3]=elementoItem;
 				elementoItem.addActionListener(new ActionListener() {
 
 					@Override
@@ -400,16 +415,20 @@ public class Panel extends JPanel {
 				});
 
 			}else if(accion.equals("cortar")) {
+				items[4]=elementoItem;
 				elementoItem.addActionListener(new DefaultEditorKit.CutAction());
 
 			}else if(accion.equals("copiar")) {
+				items[5]=elementoItem;
 				elementoItem.addActionListener(new DefaultEditorKit.CopyAction());
 			}else if(accion.equals("pegar")) {
+				items[6]=elementoItem;
 				elementoItem.addActionListener(new DefaultEditorKit.PasteAction());
 			}
 		}else if(menu.equals("seleccion")) {
+			seleccion.add(elementoItem);
 			if(accion.equals("seleccion")) {
-				seleccion.add(elementoItem);
+				items[7]=elementoItem;
 				elementoItem.addActionListener(new ActionListener() {
 
 					@Override
@@ -487,4 +506,5 @@ public class Panel extends JPanel {
 	private URL url;
 	private JSlider slider;
 	private JPopupMenu menuEmergente;
+	private JMenuItem items[];
 }
