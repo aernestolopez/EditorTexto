@@ -1,5 +1,6 @@
 package dam.proyecto.editor;
 
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -27,10 +28,13 @@ import javax.swing.undo.UndoManager;
  *
  */
 public class Panel extends JPanel {
-	public Panel() {
+	public Panel() {	
+		setLayout(new BorderLayout());
+		
 		//---------------Menu----------------------------
 		//Instanciamos los objetos del menu
 		JPanel panelMenu= new JPanel();
+		panelMenu.setLayout(new BorderLayout());
 		menu=new JMenuBar();
 		//Instanciamos los componentes del menu
 		archivo=new JMenu("Archivo");
@@ -74,7 +78,9 @@ public class Panel extends JPanel {
 		creaItem("Numeración", "ver", "numeracion");
 		creaItem("Contar Palabras", "ver", "contarpalabras");
 		//-----------------------------------------------
-		panelMenu.add(menu);
+		
+		
+		panelMenu.add(menu, BorderLayout.NORTH);
 
 
 		//---------------Area de Texto-------------------
@@ -127,10 +133,10 @@ public class Panel extends JPanel {
 		
 		
 		//-----------------------------------------------
-		add(panelMenu);
-
-		add(tPane);
-		add(herramientas);
+		
+		add(panelMenu,BorderLayout.NORTH);
+		add(tPane, BorderLayout.CENTER);
+		add(herramientas, BorderLayout.WEST);
 	}
 	//Metodo usado para crear acciones en el menu
 	public void creaItem(String rotulo, String menu, String accion) {
@@ -377,6 +383,7 @@ public class Panel extends JPanel {
 	public void creaPanel() {
 		//instanciamos el panel
 		ventana=new JPanel();
+		ventana.setLayout(new BorderLayout());
 		listFile.add(new File(""));
 		listAreaTexto.add(new JTextPane());
 		listScroll.add(new JScrollPane(listAreaTexto.get(contadorPanel)));
@@ -385,9 +392,9 @@ public class Panel extends JPanel {
 		listAreaTexto.get(contadorPanel).getDocument().addUndoableEditListener(listManager.get(contadorPanel));
 		
 		//Agregamos el area de texto en el contenedor
-		ventana.add(listScroll.get(contadorPanel));
+		ventana.add(listScroll.get(contadorPanel), BorderLayout.CENTER );
 		//Agregamos la ventana que tiene en su interior el area de texto en la pestaña
-		tPane.addTab("title", ventana);
+		tPane.addTab("Nuevo Archivo", ventana);
 
 		Utilidades.viewNumeracionInicio(numeracion, listAreaTexto.get(contadorPanel),listScroll.get(contadorPanel));
 		tPane.setSelectedIndex(contadorPanel);
