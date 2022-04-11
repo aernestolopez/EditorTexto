@@ -134,9 +134,24 @@ public class Panel extends JPanel {
 		
 		//-----------------------------------------------
 		
+		//-----------------Panel Extra-------------------
+		panelExtra=new JPanel();
+		panelExtra.setLayout(new BorderLayout());
+		
+		JPanel panelIzquierdo = new JPanel();
+		
+		JPanel panelCentro =new JPanel();
+		
+		panelExtra.add(panelIzquierdo);
+		
+		panelExtra.add(panelCentro);
+		
+		//-----------------------------------------------
+		
 		add(panelMenu,BorderLayout.NORTH);
 		add(tPane, BorderLayout.CENTER);
 		add(herramientas, BorderLayout.WEST);
+		add(panelExtra, BorderLayout.SOUTH);
 	}
 	//Metodo usado para crear acciones en el menu
 	public void creaItem(String rotulo, String menu, String accion) {
@@ -411,6 +426,7 @@ public class Panel extends JPanel {
 	private JTabbedPane tPane;
 	//Clases utilizadas para poder crear areas de texto
 	private JPanel ventana;
+	private JPanel panelExtra;
 	private ArrayList<JTextPane> listAreaTexto;
 	private ArrayList<JScrollPane> listScroll;
 	private ArrayList<File> listFile;
@@ -422,4 +438,5 @@ public class Panel extends JPanel {
 	private JMenuItem elementoItem;
 	private JToolBar herramientas;
 	private URL url;
+
 }
