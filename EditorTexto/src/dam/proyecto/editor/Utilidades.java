@@ -9,8 +9,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+
 /**
  * Clase utilizada para poder añadir lineas de texto debajo de otras anteriormente leidas
  * y demas utiliadades
@@ -57,5 +62,23 @@ public class Utilidades {
 		((Container) objContenedor).add(button);
 		return button;
 	}
+	//-----------------------------------------------------------------
+	
+	
+	//--------------Tamaño Texto---------------------------------------
+	public static void tamTexto(int tamanio, int contador, ArrayList<JTextPane> list) {
+		for(int i=0; i<contador; i++) {
+			//Selecciona todo el texto del area de texto
+			list.get(i).selectAll();
+			
+			StyleContext sc= StyleContext.getDefaultStyleContext();
+			//Para cambiar el tamaño del texto
+			AttributeSet aset=sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.FontSize, tamanio);
+			//aplica el tamaño del texto en el area de texto
+			list.get(i).setCharacterAttributes(aset, false);
+		}
+	}
+	
+	
 	//-----------------------------------------------------------------
 }
